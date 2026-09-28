@@ -1,0 +1,12 @@
+{
+  "name": "google-news-scraper",
+  "version": "0.1.0",
+  "description": "Google News scraper for Node.js: keyword search results as structured JSON, no headless browser or proxy pool. Built on the Unbrowse SDK.",
+  "license": "MIT",
+  "type": "module",
+  "bin": { "google-news-scraper": "index.mjs" },
+  "engines": { "node": ">=18.17" },
+  "scripts": { "test": "node --test test.mjs" },
+  "keywords": ["google-news-scraper", "google-news", "news", "rss", "scraper", "web-scraping", "nodejs", "ai-agents", "unbrowse"],
+  "dependencies": { "@unbrowse/sdk": "^12.1.1" }
+}
