@@ -10,7 +10,7 @@ description: Search Google News for a keyword and get articles as JSON with head
 - Keyword search only (US English edition). Not for reading article bodies.
 
 ## Run
-Needs `UNBROWSE_API_KEY` (free at https://unbrowse.ai). From the repo root:
+Uses `UNBROWSE_API_KEY` when set (free at https://unbrowse.ai); without it, requests go straight to the site. From the repo root:
 
 ```bash
 node index.mjs "nvidia" --when 1d > out.json

@@ -6,7 +6,7 @@
   "type": "module",
   "bin": { "google-news-scraper": "index.mjs" },
   "engines": { "node": ">=18.17" },
-  "scripts": { "test": "node --test test.mjs" },
+  "scripts": { "test": "node --test test.mjs lib/fallback.test.mjs" },
   "keywords": ["google-news-scraper", "google-news", "news", "rss", "scraper", "web-scraping", "nodejs", "ai-agents", "unbrowse"],
   "dependencies": { "@unbrowse/sdk": "^12.1.1" }
 }

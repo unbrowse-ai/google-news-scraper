@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Google News Scraper: search Google News for a keyword and get articles as structured JSON.
-// Searches go through the public Unbrowse tool for the Google News RSS search feed, sent from this machine.
+// Searches go through the public Unbrowse tool for the Google News RSS search feed, sent from this machine;
+// without a key, or when the tool is unavailable, the feed is requested directly.
 import { fileURLToPath } from "node:url";
 import { cli, readPage } from "./lib/read-page.mjs";
 import { dayWindows, parseRss, searchText } from "./parse.mjs";
@@ -13,7 +14,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const refused = (page) => (page.status === 200 && !/<rss[\s>]/.test(page.body.slice(0, 2000)) ? "not an RSS feed (bot check?)" : false);
 
 async function feed(text) {
-  const page = await readPage(CAPABILITY, { query: text }, { hosts: HOSTS, refused, minBytes: 200 });
+  const url = `https://news.google.com/rss/search?q=${encodeURIComponent(text)}&hl=en-US&gl=US&ceid=US:en`;
+  const direct = { url, headers: { accept: "application/rss+xml, application/xml;q=0.9, */*;q=0.8" } };
+  const page = await readPage(CAPABILITY, { query: text }, { hosts: HOSTS, refused, minBytes: 200, direct });
   const r = parseRss(page.body);
   if (!r) throw new Error(`Google News did not return a feed for "${text}"`);
   return r.items;
@@ -69,6 +72,6 @@ Usage: node index.mjs <query>... [options]
   --when 1h|1d|7d|30d|1y
   --from YYYY-MM-DD --to YYYY-MM-DD
 
-Needs UNBROWSE_API_KEY (free at https://unbrowse.ai).`,
+Uses UNBROWSE_API_KEY when set (free at https://unbrowse.ai); without it, requests go straight to the site.`,
   );
 }

@@ -2,13 +2,13 @@
 
 Scrape Google News search results into structured JSON: headline, publisher name, publisher website, publish date as ISO 8601 and as a timestamp, the Google News article link and its id, and related coverage from other outlets when Google groups a story. Search any keyword or phrase with Google's own operators (`"exact phrase"`, `-exclude`, `site:reuters.com`), limit it to the last hour, day, week, month or year, or to a date range, and go past Google's 100-result cap by walking back one day at a time.
 
-The scraper reads the Google News RSS search feed (US English edition) through a public [Unbrowse](https://unbrowse.ai) tool. The request is sent from your machine and the feed is parsed locally, so no browser, no HTML scraping and no page-layout breakage: the feed format has been stable for years.
+The scraper reads the Google News RSS search feed (US English edition) through a public [Unbrowse](https://unbrowse.ai) tool. The request is sent from your machine and the feed is parsed locally, so no browser, no HTML scraping and no page-layout breakage: the feed format has been stable for years. Without an Unbrowse key, or when that tool is unavailable, the scraper sends the same request straight to the site and parses it the same way.
 
 ## Quick start
 
 ```bash
 git clone https://github.com/unbrowse-ai/google-news-scraper && cd google-news-scraper && npm install
-export UNBROWSE_API_KEY=ub_live_...        # free key: https://unbrowse.ai
+export UNBROWSE_API_KEY=ub_live_...        # optional; free key: https://unbrowse.ai
 
 node index.mjs "nvidia" > nvidia.json
 node index.mjs "climate change" --when 7d --max 300 > climate-week.json
@@ -63,7 +63,7 @@ const articles = await scrape("openai", { timeframe: "1d", max: 50 });
 
 **Other countries and languages?** The public tool is fixed to the US English edition for now. Queries in any language work, but ranking follows the US edition.
 
-**Why a key?** The feed is fetched through Unbrowse's public Google News tool, which tells your machine which request to send. The key is free; the request leaves from your IP. If Google shows your IP a bot check, the scraper stops without reporting it.
+**Do I need a key?** No. With a free [Unbrowse](https://unbrowse.ai) key, the scraper runs Unbrowse's public Google News tool first, which tells your machine which request to send. Without a key, or when a tool is unavailable, it sends the same request directly with a normal browser user agent (one `note:` line on stderr says so). Either way the request leaves from your IP, and your key is never sent to the site. If Google shows your IP a bot check, the scraper stops without reporting it.
 
 ---
 
